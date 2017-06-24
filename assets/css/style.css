@@ -33,8 +33,10 @@ body {
   top: 30%;
   left: 30%;
   color: #5B4A6D;
+  text-align: center;
 }
 
 .header{
+	text-transform: uppercase;
 	font-weight: bold;
 }
