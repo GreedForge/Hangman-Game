@@ -1,185 +1,216 @@
+var gameState = 0;
+var wins = 0;
+var guessesRemaining = 6;
 
-      // VARIABLES
-      // ==========================================================================
+var wordsForGuessing = [
+    ["a", "p", "p", "l", "e"],
+    ["s", "n", "i", "f", "f", "l", "e"],
+    ["c", "o", "w", "b", "o", "y"],
+    ["s", "p", "i", "k", "e"],
+    ["e", "i", "n", "s", "t", "e", "i", "n"]
+];
+var currentWordLeters = [];
+var lettersGuessed = [];
+var userInput;
 
-      // The object questions for our quiz game.
-      /*
-      var questions = {
-        q1: ["The sky is blue.", "t"],
-        q2: ["There are 365 days in a year.", "t"],
-        q3: ["There are 42 ounces in a pound.", "f"],
-        q4: ["The Declaration of Independence was created in 1745.", "f"],
-        q5: ["Bananas are vegetables.", "f"]
-      };
-
-      // We start the game with a score of 0.
-      var score = 0;
-      // Variable to hold the index of current question.
-      var questionIndex = 0;
-      // Array of questions.
-      var questionsArray = [questions.q1, questions.q2, questions.q3, questions.q4, questions.q5];
-
-      // FUNCTIONS
-      // ==============================================================================
-
-      // Function to render questions.
-      function renderQuestion() {
-        // If there are still more questions, render the next one.
-        if (questionIndex <= (questionsArray.length - 1)) {
-          document.querySelector("#question").innerHTML = questionsArray[questionIndex][0];
-        }
-        // If there aren't, render the end game screen.
-        else {
-          document.querySelector("#question").innerHTML = "Game Over!";
-          document.querySelector("#score").innerHTML = "Final Score: " + score + " out of " + questionsArray.length;
-        }
-      }
-
-      // Function that updates the score...
-      function updateScore() {
-        document.querySelector("#score").innerHTML = "Score: " + score;
-      }
-
-
-      // MAIN PROCESS
-      // ==============================================================================
-
-      // Calling functions to start the game.
-      renderQuestion();
-      updateScore();
-
-      // When the user presses a key, it will run the following function...
-      document.onkeyup = function(event) {
-
-        // If there are no more questions, stop the function.
-        if (questionIndex === questionsArray.length) {
-          return;
-        }
-
-        // Determine which key was pressed, make it lowercase, and set it to the userInput variable.
-        var userInput = String.fromCharCode(event.keyCode).toLowerCase();
-
-        // Only run this code if "t" or "f" were pressed.
-        if (userInput === "t" || userInput === "f") {
-
-          // If they guess the correct answer, increase and update score, alert them they got it right.
-          if (userInput === questionsArray[questionIndex][1]) {
-            alert("Correct!");
-            score++;
-            updateScore();
-          }
-          // If wrong, alert them they are wrong.
-          else {
-            alert("Wrong!");
-          }
-
-          // Increment the questionIndex variable and call the renderQuestion function.
-          questionIndex++;
-          renderQuestion();
-
-        }
-
-      };
-
-*/
-      var wins = 0;
-      var guessesRemaining = 10;
-      
-      var wordsForGuessing=[["a","p","p","l","e"],["s","n","i","f","f","l","e"]];
-      var currentWordLeters=[];
-      var lettersGuessed=[];
-      var userInput;
-
-
-      currentWordLetters= wordsForGuessing[getRandomInt(0, 1)]
-      
-      console.log(currentWordLetters);
-      
+var wordGuessed = 0;
 
 
 
-      function getRandomInt(min, max) {
+
+function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+
+
+//look at player guess, if is in current word array add to div and letters guessed, if not decrement guesses, if already guessed set game state to already guessed
+function guess() {
+
+    document.getElementById("start").innerHTML = "";
+
+
+
+
+    //user guessed wrong
+    if (currentWordLetters.indexOf(userInput) === (-1)) {
+        if (lettersGuessed.indexOf(userInput) === (-1)) {
+            guessesRemaining--;
+            document.querySelector("#numGuesses").innerHTML = guessesRemaining;
+            lettersGuessed.push(userInput);
+            document.querySelector("#lettersGuessed").innerHTML = lettersGuessed;
+        } else {
+            gameState = 2;
         }
-      
-      function guess(){
-        
+    }
+    //user guessed right
+    if (currentWordLetters.indexOf(userInput) !== (-1)) {
+        if (lettersGuessed.indexOf(userInput) === (-1)) {
+            for (var i = 0; i < currentWordLetters.length; i++) {
+                if (currentWordLetters[i] === userInput) {
+                    document.getElementById(i).innerHTML = currentWordLetters[i];
+                    wordGuessed++;
+                    if (wordGuessed == currentWordLetters.length) {
+                        gameState = 3;
+                    }
+                }
+            }
+            lettersGuessed.push(userInput);
+            document.querySelector("#lettersGuessed").innerHTML = lettersGuessed;
+        } else {
+            gameState = 2;
+        }
     }
 
+    if (guessesRemaining == 0) {
+        gameState = 4;
+    }
+}
+
+function setUp() {
+    currentWordLetters = wordsForGuessing[getRandomInt(0, 1)];
+
+    var div = document.createElement("h1");
+    div.id = "start";
+
+    div.innerHTML = "Press Any Key to Start";
+    document.querySelector("#winsHeader").prepend(div);
+
+    for (var i = 0; i < currentWordLetters.length; i++) {
+        var div = document.createElement("div");
+        div.style.float = "left";
+        div.style.height = "100px";
+        div.style.width = "100px";
+        div.style.background = "rgba(180, 181, 177, .5)";
+        div.style.borderBottom = "rgba(37, 45, 75, .5) 5px solid";
+        div.style.margin = "5px";
+        div.style.color = "rgba(91, 74, 109, .7)";
+        div.style.textAlign = "center";
+        div.style.lineHeight = "3.8";
+        div.style.fontSize = "28px";
+
+        div.id = i;
+        document.querySelector("#current").append(div);
+
+    }
+}
+
+
+
+function renderGame() {
+    //call random int gen to get the string we are playing with
+
+
+
+
+    document.querySelector("#wins").innerHTML = wins;
+
+
+
+    document.querySelector("#numGuesses").innerHTML = guessesRemaining;
+
+    document.querySelector("#lettersGuessed").innerHTML = lettersGuessed;
+
+
+}
+
+setUp();
+renderGame();
+
+
+
+document.onkeyup = function(event) {
+    if (gameState == 4) {
+        document.body.innerHTML = "";
+        document.body.style.background = "black";
+        document.body.style.verticalAlign = "bottom";
+        document.body.style.textAlign = "right";
+        document.body.innerHTML = "EASY COME, EASY GO...";
+        document.body.style.fontSize = "28px";
+        document.body.style.color = "white";
+        document.body.style.paddingTop = "95%";
+
+        return;
+
+    }
+
+    userInput = String.fromCharCode(event.keyCode).toLowerCase();
+    //running through current word to check agains user input
+    if (gameState == 0) {
+        document.getElementById("start").innerHTML = "";
+        gameState = 9;
+    }
+
+
+
+
+    guess();
+
+    //add user Input to letters guessed and
+
+    if (gameState == 2) {
+        document.getElementById("start").innerHTML = "Already Guessed That Letter";
+        gameState = 9;
+    }
+
+
+
+    if (gameState == 3) {
+        document.getElementById("start").innerHTML = "SEE YOU SPACE COWBOY";
+        gameState = 0;
+        guessesRemaining = 6;
+        currentWordLeters = [];
+        lettersGuessed = [];
+        wordGuessed = 0;
+        wins++;
+        document.getElementById("wins").innerHTML = wins;
+        document.getElementById("start").innerHTML = "";
+        document.getElementById("current").innerHTML = "";
+        setUp();
+
+    }
+
+
+
+
+}
+
+
+
+
+/* Psudo Code
+    
+    declare variables
+      -wins
+      -guesses remaining
+      -current word index
+      -array of array of words for guessing
+      -array for current word letters
+      -array for letters guessed already
+
       
 
-      function renderGame(){
-        //call random int gen to get the string we are playing with
+    functions
+      -renderGame
+        -prints all elements of the game to dom
+          -first presents "press any key to get started"
+          -wins
+          -current word
+          -spaces for letters
+          -number of guesses remaining
+          -letters already guessed
+          -space for letters already guessed
+      -guess
+        -lisens for guess
+          -compares to curent word for guessing
+          -if correct adds to current word array and letters guessed
+            -check if current word array matches current word for guessing
+              -if true increment wins
+              -increment current word index
+          -if incorrect add to letters already guessed array
+            -decrement guesses remaining
+            -if 0 end game "you lost"
 
 
-        
-        
-
-       
-        document.querySelector("#wins").innerHTML = wins;
-
-        document.querySelector("#current").innerHTML = currentWordLetters;
-
-        document.querySelector("#numGuesses").innerHTML = guessesRemaining;
-
-        document.querySelector("#lettersGuessed").innerHTML = lettersGuessed;
-
-
-      }
-
-      renderGame();
-
-
-
-      document.onkeyup = function(event) {
-
-        userInput = String.fromCharCode(event.keyCode).toLowerCase();
-        //running through current word to check agains user input
-        
-        guess();
-            //add user Input to letters guessed and 
-
-          }
-        
-
-        
-
-
-
-      renderGame();
-
-      /* Psudo Code
-          
-          declare variables
-            -wins
-            -guesses remaining
-            -current word index
-            -array of array of words for guessing
-            -array for current word letters
-            -array for letters guessed already
-
-            
-
-          functions
-            -renderGame
-              -prints all elements of the game to dom
-                -first presents "press any key to get started"
-                -wins
-                -current word
-                -spaces for letters
-                -number of guesses remaining
-                -letters already guessed
-                -space for letters already guessed
-            -guess
-              -lisens for guess
-                -compares to curent word for guessing
-                -if correct adds to current word array and letters guessed
-                  -check if current word array matches current word for guessing
-                    -if true increment wins
-                    -increment current word index
-                -if incorrect add to letters already guessed array
-                  -decrement guesses remaining
-                  -if 0 end game "you lost"
-
-
-      */
+*/

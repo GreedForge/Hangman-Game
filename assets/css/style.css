@@ -1,0 +1,36 @@
+body {
+	font-family: 'Domine', serif;
+	margin: 0;
+}
+
+#winsHeader{
+	font-family: 'Domine', serif;
+}
+
+.parallax {
+	background-color: white;
+	background-image: url("../images/Cowboy_Bebop_Background.jpg");
+
+	height: 100%;
+
+	background-attachment: fixed;
+	background-position: center;
+	background-repeat: repeat;
+	background-size: cover;
+
+	height: 100vh;
+	padding-top: 100vh;
+
+
+}
+
+
+
+.parallax-curtain{
+  height:50vh;
+  background:rgba(255,255,255,0.5);
+  position: absolute;
+  top: 30%;
+  left: 30%;
+  color: #5B4A6D;
+}
