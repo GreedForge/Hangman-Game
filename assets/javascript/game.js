@@ -69,7 +69,7 @@ function guess() {
 }
 
 function setUp() {
-    currentWordLetters = wordsForGuessing[getRandomInt(0, 1)];
+    currentWordLetters = wordsForGuessing[getRandomInt(0, 4)];
 
     var div = document.createElement("h1");
     div.id = "start";
@@ -162,6 +162,7 @@ document.onkeyup = function(event) {
         guessesRemaining = 6;
         currentWordLeters = [];
         lettersGuessed = [];
+        document.getElementById("lettersGuessed").innerHTML = "";
         wordGuessed = 0;
         wins++;
         document.getElementById("wins").innerHTML = wins;
