@@ -27,7 +27,7 @@ body {
 
 
 .parallax-curtain{
-  height:50vh;
+  height: auto;
   background:rgba(255,255,255,0.5);
   position: absolute;
   top: 30%;
