@@ -90,6 +90,7 @@ function setUp() {
         div.style.lineHeight = "3.8";
         div.style.fontSize = "28px";
 
+
         div.id = i;
         document.querySelector("#current").append(div);
 
@@ -129,7 +130,8 @@ document.onkeyup = function(event) {
         document.body.innerHTML = "EASY COME, EASY GO...";
         document.body.style.fontSize = "28px";
         document.body.style.color = "white";
-        document.body.style.paddingTop = "95%";
+        document.body.style.paddingTop = "45%";
+
 
         return;
 

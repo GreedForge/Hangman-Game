@@ -22,6 +22,7 @@ body {
 	padding-top: 100vh;
 
 
+
 }
 
 
@@ -31,9 +32,13 @@ body {
   background:rgba(255,255,255,0.5);
   position: absolute;
   top: 30%;
-  left: 30%;
+  left: 20%;
+  right: 20%;
   color: #5B4A6D;
   text-align: center;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 20px;
 }
 
 .header{
